@@ -1,14 +1,9 @@
 # lambda/index.py
 import json
 import os
-import boto3
-import re  # 正規表現モジュールをインポート
-from botocore.exceptions import ClientError
+import urllib.request  # 追加
 
 FASTAPI_URL = os.environ.get("FASTAPI_URL")
-
-# モデルID
-MODEL_ID = os.environ.get("MODEL_ID", "us.amazon.nova-lite-v1:0")
 
 def lambda_handler(event, context):
     try:
@@ -34,7 +29,7 @@ def lambda_handler(event, context):
         with urllib.request.urlopen(req) as res:
             response_data = json.loads(res.read().decode())
 
-       # 返ってきた応答（テキスト）を取り出す
+        # 返ってきた応答（テキスト）を取り出す
         assistant_response = response_data['response']
 
         # 会話履歴にアシスタントの返答を追加
